@@ -10,17 +10,8 @@ const TELEGRAM_WEBHOOK_SECRET = process.env.TELEGRAM_WEBHOOK_SECRET;
 router.get("/health", (req, res) => res.json({ ok: true, service: "telegram" }));
 
 // webhook с секретом в URL
-router.post("/webhook/:secret", async (req, res) => {
+router.post("/webhook", async (req, res) => {
   try {
-    if (!TELEGRAM_WEBHOOK_SECRET) {
-      return res.status(500).json({ error: "TELEGRAM_WEBHOOK_SECRET is not set" });
-    }
-
-    if (req.params.secret !== TELEGRAM_WEBHOOK_SECRET) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
-
-    // Telegram ждёт 200 быстро. Обработку делаем async без долгих зависаний
     const update = req.body;
     res.json({ ok: true });
 
